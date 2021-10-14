@@ -8,7 +8,7 @@ from app.tasks.serializers.task_schedule import TaskSchedule
 
 
 task_schedules_router = APIRouter(
-    prefix="/task_schedules",
+    prefix="/api/task_schedules",
     tags=["task_schedules"]
 )
 

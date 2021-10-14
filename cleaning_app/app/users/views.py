@@ -8,12 +8,12 @@ from app.users.depends import get_current_active_user
 
 
 router = APIRouter(
-    prefix="/users",
+    prefix="/api/users",
     tags=["users"]
 )
 
 
-@router.get("/me", response_model=User)
+@router.get("/api/me", response_model=User)
 async def me(
     user: UserDB = Depends(get_current_active_user),
 ):
@@ -21,7 +21,7 @@ async def me(
 
 
 @router.patch(
-    "/me",
+    "/api/me",
     response_model=User,
     dependencies=[Depends(get_current_active_user)],
 )

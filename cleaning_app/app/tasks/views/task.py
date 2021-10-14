@@ -11,7 +11,7 @@ from app.tasks.depends import get_rooms, get_task_obj
 
 
 tasks_router = APIRouter(
-    prefix="/tasks",
+    prefix="/api/tasks",
     tags=["tasks"]
 )
 

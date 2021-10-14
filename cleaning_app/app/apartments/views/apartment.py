@@ -9,7 +9,7 @@ from app.apartments.depends.apartment import get_apartment as get_apartment_depe
 
 
 apartments_router = APIRouter(
-    prefix="/apartments",
+    prefix="/api/apartments",
     tags=["apartments"]
 )
 

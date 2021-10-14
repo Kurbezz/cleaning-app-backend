@@ -11,7 +11,7 @@ from app.apartments.serializers.room import CreateRoomWithApartment
 
 
 apartment_rooms_router = APIRouter(
-    prefix="/apartments/{apartment_id}/rooms",
+    prefix="/api/apartments/{apartment_id}/rooms",
     tags=["rooms"]
 )
 
@@ -44,7 +44,7 @@ async def delete_apartment_room(room: RoomModel = Depends(get_room_in_apartment)
 
 
 rooms_router = APIRouter(
-    prefix="/rooms",
+    prefix="/api/rooms",
     tags=["rooms"]
 )
 
