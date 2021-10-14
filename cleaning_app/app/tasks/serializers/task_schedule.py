@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 from typing import Literal, Union
 from enum import Enum
 
@@ -27,16 +27,19 @@ class WeekDays(str, Enum):
 class ScheduleDaysOfTheWeek(BaseModel):
     type: Literal[ScheduleType.days_of_the_week]
     week_days: list[WeekDays]
+    time: time
 
 
 class ScheduleDaysOfTheMonth(BaseModel):
     type: Literal[ScheduleType.days_of_the_month]
     months_days: list[conint(ge=1, le=31)]  # type: ignore
+    time: time
 
 
 class ScheduleRepeatEveryNDays(BaseModel):
     type: Literal[ScheduleType.repeat_every_n_days]
     days_count: PositiveInt
+    time: time
 
 
 class ScheduleSomeDay(BaseModel):
@@ -54,5 +57,11 @@ class TaskScheduleUser(BaseModel):
 class TaskSchedule(BaseModel):
     id: int
     task: Task
-    sheldule: Schedules
+    schedule: Schedules
     executors: list[TaskScheduleUser]
+
+
+class CreateSchedule(BaseModel):
+    task: int
+    schedule: Schedules
+    executors: list[int]
