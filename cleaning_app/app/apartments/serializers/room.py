@@ -14,7 +14,7 @@ class Room(BaseModel):
 
 
 class CreateRoom(BaseModel):
-    name: str
+    name: constr(max_length=32)  # type: ignore
     color: Optional[constr(max_length=6)]  # type: ignore
 
 
@@ -23,5 +23,5 @@ class CreateRoomWithApartment(CreateRoom):
 
 
 class UpdateRoom(BaseModel):
-    name: str
+    name: constr(max_length=32)  # type: ignore
     color: Optional[constr(max_length=6)]  # type: ignore
