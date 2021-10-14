@@ -6,10 +6,12 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y gcc build-essential python3-dev libpq-dev libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /app/
+WORKDIR /root/poetry
+COPY pyproject.toml poetry.lock /root/poetry/
 RUN python -m venv $VENV_PATH \
-    && pip install -r /app/requirements.txt --no-cache-dir
-
+    && . /opt/venv/bin/activate \
+    && pip install poetry --no-cache-dir \
+    && poetry install
 
 FROM build-image as runtime-image
 
@@ -20,4 +22,4 @@ ENV PATH="$VENV_PATH/bin:$PATH"
 
 EXPOSE 8080
 
-CMD bash ./start.sh
+CMD bash /root/start.sh

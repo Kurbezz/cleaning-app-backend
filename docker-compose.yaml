@@ -15,4 +15,6 @@ services:
       - "8080:8080"
     volumes:
       - ./cleaning_app:/app
-      - ./scripts/start.sh:/app/start.sh
+      - ./scripts/start.sh:/root/start.sh
+      - ./pyproject.toml:/root/poetry/pyproject.toml
+      - ./pyproject.toml:/root/poetry/poetry.lock
