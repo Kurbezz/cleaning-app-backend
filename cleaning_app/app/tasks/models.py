@@ -9,7 +9,7 @@ from app.users.models import User
 
 class Task(ormar.Model):
     class Meta(BaseMeta):
-        tablename = 'tasks'
+        tablename = "tasks"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     name: str = ormar.String(max_length=32)  # type: ignore
@@ -20,7 +20,7 @@ class Task(ormar.Model):
 
 class TaskSchedule(ormar.Model):
     class Meta(BaseMeta):
-        tablename = 'task_sheldules'
+        tablename = "task_sheldules"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     task: Task = ormar.ForeignKey(Task)
@@ -30,17 +30,17 @@ class TaskSchedule(ormar.Model):
 
 class ScheduledTask(ormar.Model):
     class Meta(BaseMeta):
-        tablename = 'shelduled_tasks'
+        tablename = "shelduled_tasks"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     task: Task = ormar.ForeignKey(Task)
-    task_schedule: TaskSchedule = ormar.ForeignKey(TaskSchedule)
+    task_schedule: TaskSchedule = ormar.ForeignKey(TaskSchedule, nullable=True)
     scheduled_to: datetime = ormar.DateTime(timezone=True)  # type: ignore
 
 
 class CompletedTask(ormar.Model):
     class Meta(BaseMeta):
-        tablename = 'completed_tasks'
+        tablename = "completed_tasks"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     task: Task = ormar.ForeignKey(Task)

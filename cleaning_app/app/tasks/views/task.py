@@ -10,17 +10,12 @@ from app.tasks.serializers.task import Task, CreateTask, UpdateTask
 from app.tasks.depends import get_rooms, get_task_obj
 
 
-tasks_router = APIRouter(
-    prefix="/api/tasks",
-    tags=["tasks"]
-)
+tasks_router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 
 
 @tasks_router.get("", response_model=list[Task])
 async def get_tasks(user: User = Depends(get_current_user_obj)):
-    return await TaskModel.objects.filter(
-        apartment__user__id=user.id
-    ).all()
+    return await TaskModel.objects.filter(apartment__users__id=user.id).all()
 
 
 @tasks_router.post("", response_model=Task)
@@ -28,7 +23,7 @@ async def create_task(data: CreateTask, rooms: list[Room] = Depends(get_rooms)):
     task = await TaskModel.objects.create(**data.dict())
 
     for room in rooms:
-        task.rooms.add(room)  # type: ignore
+        await task.rooms.add(room)  # type: ignore
 
     return await task.update()
 
@@ -39,12 +34,16 @@ async def get_task(task: TaskModel = Depends(get_task_obj)):
 
 
 @tasks_router.put("/{task_id}", response_model=Task)
-async def update_task(data: UpdateTask, task: TaskModel = Depends(get_task_obj), rooms: list[Room] = Depends(get_rooms)):
+async def update_task(
+    data: UpdateTask,
+    task: TaskModel = Depends(get_task_obj),
+    rooms: list[Room] = Depends(get_rooms),
+):
     await task.update_from_dict(data.dict()).update()
 
     task.rooms.clear()
     for room in rooms:
-        task.rooms.add(room)  # type: ignore
+        await task.rooms.add(room)  # type: ignore
 
     return await task.update()
 

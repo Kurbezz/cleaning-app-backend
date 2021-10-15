@@ -7,10 +7,7 @@ from app.users.manager import get_user_manager, UserManager
 from app.users.depends import get_current_active_user
 
 
-router = APIRouter(
-    prefix="/api/users",
-    tags=["users"]
-)
+router = APIRouter(prefix="/api/users", tags=["users"])
 
 
 @router.get("/api/me", response_model=User)
@@ -32,9 +29,7 @@ async def update_me(
     user_manager: UserManager = Depends(get_user_manager),
 ):
     try:
-        return await user_manager.update(
-            user_update, user, safe=True, request=request
-        )
+        return await user_manager.update(user_update, user, safe=True, request=request)
     except InvalidPasswordException as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

@@ -7,7 +7,7 @@ from app.users.serializers import UserDB
 
 class User(OrmarBaseUserModel):
     class Meta(BaseMeta):
-        tablename = 'users'
+        tablename = "users"
 
     name: str = ormar.String(max_length=32)  # type: ignore
 

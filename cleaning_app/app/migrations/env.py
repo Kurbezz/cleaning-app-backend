@@ -6,11 +6,12 @@ from alembic import context
 
 
 myPath = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, myPath + '/../../')
+sys.path.insert(0, myPath + "/../../")
 
 config = context.config
 
 from core.db import BaseMeta, DATABASE_URL
+
 target_metadata = BaseMeta.metadata
 
 import app.users.models
@@ -52,9 +53,7 @@ def run_migrations_online():
     connectable = create_engine(DATABASE_URL)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

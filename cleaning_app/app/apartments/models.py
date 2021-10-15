@@ -8,7 +8,7 @@ from app.users.models import User
 
 class Apartment(ormar.Model):
     class Meta(BaseMeta):
-        tablename = 'apartments'
+        tablename = "apartments"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     name: str = ormar.String(max_length=32)  # type: ignore
@@ -17,7 +17,7 @@ class Apartment(ormar.Model):
 
 class Room(ormar.Model):
     class Meta(BaseMeta):
-        tablename = 'rooms'
+        tablename = "rooms"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     name: str = ormar.String(max_length=32)  # type: ignore

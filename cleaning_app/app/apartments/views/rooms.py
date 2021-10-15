@@ -6,13 +6,16 @@ from app.users.models import User
 from app.apartments.models import Apartment as ApartmentModel, Room as RoomModel
 from app.apartments.serializers.room import Room, CreateRoom, UpdateRoom
 from app.apartments.depends.apartment import get_apartment
-from app.apartments.depends.room import get_room_in_apartment, get_room_obj, get_apartment_obj
+from app.apartments.depends.room import (
+    get_room_in_apartment,
+    get_room_obj,
+    get_apartment_obj,
+)
 from app.apartments.serializers.room import CreateRoomWithApartment
 
 
 apartment_rooms_router = APIRouter(
-    prefix="/api/apartments/{apartment_id}/rooms",
-    tags=["rooms"]
+    prefix="/api/apartments/{apartment_id}/rooms", tags=["rooms"]
 )
 
 
@@ -22,7 +25,9 @@ async def get_all_apartment_rooms(apartment: ApartmentModel = Depends(get_apartm
 
 
 @apartment_rooms_router.post("/", response_model=Room)
-async def create_apartment_room(data: CreateRoom, apartment: ApartmentModel = Depends(get_apartment)):
+async def create_apartment_room(
+    data: CreateRoom, apartment: ApartmentModel = Depends(get_apartment)
+):
     return await RoomModel.objects.create(**data.dict(), apartment=apartment)
 
 
@@ -32,7 +37,9 @@ async def get_apartment_room(room: RoomModel = Depends(get_room_in_apartment)):
 
 
 @apartment_rooms_router.put("/{room_id}", response_model=Room)
-async def update_apartment_room(data: UpdateRoom, room: RoomModel = Depends(get_room_in_apartment)):
+async def update_apartment_room(
+    data: UpdateRoom, room: RoomModel = Depends(get_room_in_apartment)
+):
     return await room.update_from_dict(data.dict()).update()
 
 
@@ -43,17 +50,12 @@ async def delete_apartment_room(room: RoomModel = Depends(get_room_in_apartment)
     return room
 
 
-rooms_router = APIRouter(
-    prefix="/api/rooms",
-    tags=["rooms"]
-)
+rooms_router = APIRouter(prefix="/api/rooms", tags=["rooms"])
 
 
 @rooms_router.get("", response_model=list[Room])
 async def get_all_rooms(user: User = Depends(get_current_user_obj)):
-    return await RoomModel.objects.filter(
-        apartment__users__id=user.id
-    ).all()
+    return await RoomModel.objects.filter(apartment__users__id=user.id).all()
 
 
 @rooms_router.post("", response_model=Room, dependencies=[Depends(get_apartment_obj)])
