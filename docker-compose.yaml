@@ -5,7 +5,7 @@ services:
     env_file:
       - ./cleaning_app/.env
     ports:
-      - "5432"
+      - "5432:5432"
   
   backend:
     build:
