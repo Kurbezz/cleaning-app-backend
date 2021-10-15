@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Depends, BackgroundTasks
 
+from fastapi_pagination import LimitOffsetPage
+from fastapi_pagination.ext.ormar import paginate
+
 from app.users.models import User
 from app.users.depends import get_current_user_obj
 
@@ -17,11 +20,11 @@ from app.tasks.depends import get_task_schedule_obj
 task_schedules_router = APIRouter(prefix="/api/task_schedules", tags=["task_schedules"])
 
 
-@task_schedules_router.get("", response_model=list[TaskSchedule])
+@task_schedules_router.get("", response_model=LimitOffsetPage[TaskSchedule])
 async def get_task_schedules(user: User = Depends(get_current_user_obj)):
-    return await TaskScheduleModel.objects.filter(
+    return await paginate(TaskScheduleModel.objects.filter(
         task__apartment__users__id=user.id
-    ).all()
+    ))
 
 
 @task_schedules_router.post(

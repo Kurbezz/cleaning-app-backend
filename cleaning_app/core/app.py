@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from fastapi_pagination import add_pagination
+
 from core.db import database
 from app.routers import routers
 from app.users.router import init_auth_routes
@@ -14,6 +16,8 @@ def start_app() -> FastAPI:
 
     for router in routers:
         app.include_router(router)
+    
+    add_pagination(app)
 
     @app.on_event("startup")
     async def startup() -> None:
