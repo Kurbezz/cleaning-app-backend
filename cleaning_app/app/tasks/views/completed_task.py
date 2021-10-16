@@ -10,17 +10,31 @@ from app.tasks.models import CompletedTask as CompletedTaskModel
 from app.tasks.serializers.completed_task import CompletedTask
 
 
-completed_tasks_router = APIRouter(prefix="/api/completed_tasks", tags=["completed_tasks"])
+completed_tasks_router = APIRouter(
+    prefix="/api/completed_tasks", tags=["completed_tasks"]
+)
 
 
-@completed_tasks_router.get("", response_model=LimitOffsetPage[CompletedTask], dependencies=[Depends(LimitOffsetParams)])
+@completed_tasks_router.get(
+    "",
+    response_model=LimitOffsetPage[CompletedTask],
+    dependencies=[Depends(LimitOffsetParams)],
+)
 async def get_completed_tasks(user: User = Depends(get_current_user_obj)):
-    return await paginate(CompletedTaskModel.objects.filter(task__apartment__users__id=user.id))
+    return await paginate(
+        CompletedTaskModel.objects.filter(task__apartment__users__id=user.id)
+    )
 
 
-@completed_tasks_router.get("/{completed_task_id}", response_model=CompletedTask)
-async def get_completed_task(completed_task_id: int, user: User = Depends(get_current_user_obj)):
-    completed_task = await CompletedTaskModel.objects.get_or_none(task__apartment__users__id=user.id, task=completed_task_id)
+@completed_tasks_router.get(
+    "/{completed_task_id}", response_model=CompletedTask
+)
+async def get_completed_task(
+    completed_task_id: int, user: User = Depends(get_current_user_obj)
+):
+    completed_task = await CompletedTaskModel.objects.get_or_none(
+        task__apartment__users__id=user.id, task=completed_task_id
+    )
 
     if not completed_task:
         raise HTTPException(status.HTTP_404_NOT_FOUND)

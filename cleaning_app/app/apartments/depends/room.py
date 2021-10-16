@@ -30,7 +30,9 @@ async def get_apartment_obj(
     return apartment
 
 
-async def get_room_obj(room_id: int, user: User = Depends(get_current_user_obj)):
+async def get_room_obj(
+    room_id: int, user: User = Depends(get_current_user_obj)
+):
     room = Room.objects.get(id=room_id, apartment__users__id=user.id)
 
     if not room:

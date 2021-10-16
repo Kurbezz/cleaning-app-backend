@@ -17,14 +17,20 @@ from app.tasks.services.task_schedule_delete import (
 from app.tasks.depends import get_task_schedule_obj
 
 
-task_schedules_router = APIRouter(prefix="/api/task_schedules", tags=["task_schedules"])
+task_schedules_router = APIRouter(
+    prefix="/api/task_schedules", tags=["task_schedules"]
+)
 
 
-@task_schedules_router.get("", response_model=LimitOffsetPage[TaskSchedule], dependencies=[Depends(LimitOffsetParams)])
+@task_schedules_router.get(
+    "",
+    response_model=LimitOffsetPage[TaskSchedule],
+    dependencies=[Depends(LimitOffsetParams)],
+)
 async def get_task_schedules(user: User = Depends(get_current_user_obj)):
-    return await paginate(TaskScheduleModel.objects.filter(
-        task__apartment__users__id=user.id
-    ))
+    return await paginate(
+        TaskScheduleModel.objects.filter(task__apartment__users__id=user.id)
+    )
 
 
 @task_schedules_router.post(

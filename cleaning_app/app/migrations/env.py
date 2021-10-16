@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 from sqlalchemy import create_engine
 
@@ -10,13 +11,13 @@ sys.path.insert(0, myPath + "/../../")
 
 config = context.config
 
-from core.db import BaseMeta, DATABASE_URL
+from core.db import BaseMeta, DATABASE_URL  # noqa: E402
 
 target_metadata = BaseMeta.metadata
 
-import app.users.models
-import app.apartments.models
-import app.tasks.models
+import app.users.models  # noqa: E402, F401
+import app.apartments.models  # noqa: E402, F401
+import app.tasks.models  # noqa: E402, F401
 
 
 def run_migrations_offline():
@@ -53,7 +54,9 @@ def run_migrations_online():
     connectable = create_engine(DATABASE_URL)
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection, target_metadata=target_metadata
+        )
 
         with context.begin_transaction():
             context.run_migrations()

@@ -6,7 +6,9 @@ from app.users.depends import get_current_user_obj
 from app.apartments.models import Apartment as ApartmentModel
 
 
-async def get_apartment(apartment_id: int, user: User = Depends(get_current_user_obj)):
+async def get_apartment(
+    apartment_id: int, user: User = Depends(get_current_user_obj)
+):
     apartment: ApartmentModel = await user.apartments.select_related(
         ["users", "rooms"]
     ).get_or_none(id=apartment_id)

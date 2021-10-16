@@ -16,7 +16,7 @@ def start_app() -> FastAPI:
 
     for router in routers:
         app.include_router(router)
-    
+
     add_pagination(app)
 
     @app.on_event("startup")

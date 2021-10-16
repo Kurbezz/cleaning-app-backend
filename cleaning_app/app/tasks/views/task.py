@@ -16,13 +16,21 @@ from app.tasks.depends import get_rooms, get_task_obj
 tasks_router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 
 
-@tasks_router.get("", response_model=LimitOffsetPage[Task], dependencies=[Depends(LimitOffsetParams)])
+@tasks_router.get(
+    "",
+    response_model=LimitOffsetPage[Task],
+    dependencies=[Depends(LimitOffsetParams)],
+)
 async def get_tasks(user: User = Depends(get_current_user_obj)):
-    return await paginate(TaskModel.objects.filter(apartment__users__id=user.id))
+    return await paginate(
+        TaskModel.objects.filter(apartment__users__id=user.id)
+    )
 
 
 @tasks_router.post("", response_model=Task)
-async def create_task(data: CreateTask, rooms: list[Room] = Depends(get_rooms)):
+async def create_task(
+    data: CreateTask, rooms: list[Room] = Depends(get_rooms)
+):
     task = await TaskModel.objects.create(**data.dict())
 
     for room in rooms:

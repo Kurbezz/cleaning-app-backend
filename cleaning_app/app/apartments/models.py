@@ -22,4 +22,6 @@ class Room(ormar.Model):
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     name: str = ormar.String(max_length=32)  # type: ignore
     apartment: Apartment = ormar.ForeignKey(Apartment, ondelete="CASCADE")
-    color: Optional[str] = ormar.String(max_length=6, nullable=True)  # type: ignore
+    color: Optional[str] = ormar.String(
+        max_length=6, nullable=True
+    )  # type: ignore

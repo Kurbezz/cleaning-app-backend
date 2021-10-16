@@ -2,7 +2,7 @@ name: Check linting
 
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
   Check-flake8:
@@ -12,14 +12,19 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get Diff Action
+      - 
+        name: Get Diff Action
         uses: technote-space/get-diff-action@v4.0.1
         with:
           PATTERNS: cleaning_app/**/*.py
 
       -
+        name: Install flake8
+        run: pip install flake8 pyproject-flake8
+
+      -
         name: flake8
-        run: flake8 ${{ env.GIT_DIFF_FILTERED }}
+        run: pflake8 ${{ env.GIT_DIFF_FILTERED }}
         if: env.GIT_DIFF_FILTERED
       
   Check-black:
@@ -29,12 +34,17 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get Diff Action
+      - 
+        name: Get Diff Action
         uses: technote-space/get-diff-action@v4.0.1
         with:
           PATTERNS: cleaning_app/**/*.py
 
       -
+        name: Install black
+        run: pip install black
+
+      -
         name: black
-        run: black ${{ env.GIT_DIFF_FILTERED }} --check
+        run: black ${{ env.GIT_DIFF_FILTERED }} --diff --check
         if: env.GIT_DIFF_FILTERED

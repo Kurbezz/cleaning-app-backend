@@ -4,9 +4,6 @@ from enum import Enum
 from uuid import UUID
 
 from pydantic import BaseModel, conint, PositiveInt
-from starlette.background import BackgroundTasks
-
-from app.tasks.serializers.task import Task
 
 
 class ScheduleType(str, Enum):

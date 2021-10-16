@@ -11,5 +11,7 @@ get_current_superuser = fastapi_users.authenticator.current_user(
 )
 
 
-async def get_current_user_obj(user_db: UserDB = Depends(get_current_active_user)):
+async def get_current_user_obj(
+    user_db: UserDB = Depends(get_current_active_user),
+):
     return await User.objects.get(id=user_db.id)
