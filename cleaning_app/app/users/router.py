@@ -49,7 +49,9 @@ def init_auth_routes(app: FastAPI):
     app.include_router(
         fastapi_users.get_register_router(), prefix=prefix, tags=["auth"]
     )
-    app.include_router(fastapi_users.get_verify_router(), prefix=prefix, tags=["auth"])
+    app.include_router(
+        fastapi_users.get_verify_router(), prefix=prefix, tags=["auth"]
+    )
     app.include_router(
         fastapi_users.get_reset_password_router(), prefix=prefix, tags=["auth"]
     )
