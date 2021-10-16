@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from app.users.views import router as users_router
 from app.apartments.routers import routers as appartments_routers
-from app.tasks.views import tasks_router, task_schedules_router, scheduled_tasks_routers
+from app.tasks.views import tasks_router, task_schedules_router, scheduled_tasks_router, completed_tasks_router
 
 
 routers: list[APIRouter] = [
@@ -10,5 +10,6 @@ routers: list[APIRouter] = [
     *appartments_routers,
     tasks_router,
     task_schedules_router,
-    scheduled_tasks_routers,
+    scheduled_tasks_router,
+    completed_tasks_router,
 ]
