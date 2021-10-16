@@ -1,6 +1,8 @@
 .mypy_cache
 .vscode
 
+cleaning_app/.env
+
 venv
 .venv
 __pycache__
