@@ -16,6 +16,7 @@ class Task(ormar.Model):
     description: str = ormar.String(max_length=128)  # type: ignore
     apartment: Apartment = ormar.ForeignKey(Apartment)
     rooms: list[Room] = ormar.ManyToMany(Room)
+    points: int = ormar.SmallInteger(default=0, minimum=0)  # type: ignore
 
 
 class TaskSchedule(ormar.Model):

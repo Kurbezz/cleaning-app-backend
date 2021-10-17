@@ -15,6 +15,7 @@ class Task(BaseModel):
     description: str
     apartment: TaskApartment
     rooms: list[TaskRoom]
+    points: int
 
 
 class CreateTask(BaseModel):
@@ -22,6 +23,7 @@ class CreateTask(BaseModel):
     description: constr(max_length=128)  # type: ignore
     apartment: int
     rooms: list[int]
+    points: int = 0
 
 
 class UpdateTask(BaseModel):
@@ -29,3 +31,4 @@ class UpdateTask(BaseModel):
     description: constr(max_length=128)  # type: ignore
     apartment: int
     rooms: list[int]
+    points: int
