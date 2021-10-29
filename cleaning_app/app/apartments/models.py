@@ -12,7 +12,7 @@ class Apartment(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     name: str = ormar.String(max_length=32)  # type: ignore
-    users: list[User] = ormar.ManyToMany(User)
+    users = ormar.ManyToMany(User)
 
 
 class Room(ormar.Model):

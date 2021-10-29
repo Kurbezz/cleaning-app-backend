@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from fastapi_pagination import LimitOffsetPage, LimitOffsetParams
+from app.common.pagination_page import CustomPage
+from fastapi_pagination import LimitOffsetParams
 from fastapi_pagination.ext.ormar import paginate
 
 from app.users.models import User
@@ -18,12 +19,14 @@ tasks_router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 
 @tasks_router.get(
     "",
-    response_model=LimitOffsetPage[Task],
+    response_model=CustomPage[Task],
     dependencies=[Depends(LimitOffsetParams)],
 )
 async def get_tasks(user: User = Depends(get_current_user_obj)):
     return await paginate(
-        TaskModel.objects.filter(apartment__users__id=user.id)
+        TaskModel.objects.select_related("rooms").filter(
+            apartment__users__id=user.id
+        )
     )
 
 
@@ -34,7 +37,7 @@ async def create_task(
     task = await TaskModel.objects.create(**data.dict())
 
     for room in rooms:
-        await task.rooms.add(room)  # type: ignore
+        await task.rooms.add(room)
 
     return await task.update()
 
@@ -54,7 +57,7 @@ async def update_task(
 
     task.rooms.clear()
     for room in rooms:
-        await task.rooms.add(room)  # type: ignore
+        await task.rooms.add(room)
 
     return await task.update()
 

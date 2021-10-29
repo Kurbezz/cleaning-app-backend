@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from fastapi_pagination import LimitOffsetPage, LimitOffsetParams
+from app.common.pagination_page import CustomPage
+from fastapi_pagination import LimitOffsetParams
 from fastapi_pagination.ext.ormar import paginate
 
 from app.users.models import User
@@ -22,12 +23,14 @@ apartments_router = APIRouter(prefix="/api/apartments", tags=["apartments"])
 
 @apartments_router.get(
     "",
-    response_model=LimitOffsetPage[Apartment],
+    response_model=CustomPage[Apartment],
     dependencies=[Depends(LimitOffsetParams)],
 )
 async def get_all_apartments(user: User = Depends(get_current_user_obj)):
     return await paginate(
-        user.apartments.select_related(["users", "rooms"]).queryset
+        user.apartments.select_related(["users"])
+        .prefetch_related(["rooms"])
+        .queryset
     )
 
 

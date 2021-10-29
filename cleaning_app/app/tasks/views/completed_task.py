@@ -1,13 +1,20 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from fastapi_pagination import LimitOffsetPage, LimitOffsetParams
+from app.common.pagination_page import CustomPage
+from fastapi_pagination import LimitOffsetParams
 from fastapi_pagination.ext.ormar import paginate
 
 from app.users.models import User
 from app.users.depends import get_current_user_obj
 
-from app.tasks.models import CompletedTask as CompletedTaskModel
+from app.tasks.models import (
+    CompletedTask as CompletedTaskModel,
+    Task as TaskModel,
+)
 from app.tasks.serializers.completed_task import CompletedTask
+from app.tasks.depends import get_task_obj
 
 
 completed_tasks_router = APIRouter(
@@ -17,7 +24,7 @@ completed_tasks_router = APIRouter(
 
 @completed_tasks_router.get(
     "",
-    response_model=LimitOffsetPage[CompletedTask],
+    response_model=CustomPage[CompletedTask],
     dependencies=[Depends(LimitOffsetParams)],
 )
 async def get_completed_tasks(user: User = Depends(get_current_user_obj)):
@@ -38,5 +45,25 @@ async def get_completed_task(
 
     if not completed_task:
         raise HTTPException(status.HTTP_404_NOT_FOUND)
+
+    return completed_task
+
+
+task_complete_router = APIRouter(tags=["tasks"])
+
+
+@task_complete_router.post(
+    "/api/tasks/{task_id}/complete", response_model=CompletedTask
+)
+async def complete_task(
+    task: TaskModel = Depends(get_task_obj),
+    user: User = Depends(get_current_user_obj),
+):
+    completed_task = await CompletedTaskModel.objects.create(
+        task=task.id,
+        complete_on=datetime.now(),
+    )
+
+    await completed_task.executors.add(user)
 
     return completed_task

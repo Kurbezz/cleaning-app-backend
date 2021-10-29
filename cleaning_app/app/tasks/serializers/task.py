@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, constr
 
 
@@ -14,8 +15,8 @@ class Task(BaseModel):
     name: str
     description: str
     apartment: TaskApartment
+    points: Optional[int]
     rooms: list[TaskRoom]
-    points: int
 
 
 class CreateTask(BaseModel):

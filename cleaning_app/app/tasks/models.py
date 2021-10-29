@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 import ormar
 
@@ -15,7 +16,7 @@ class Task(ormar.Model):
     name: str = ormar.String(max_length=32)  # type: ignore
     description: str = ormar.String(max_length=128)  # type: ignore
     apartment: Apartment = ormar.ForeignKey(Apartment)
-    rooms: list[Room] = ormar.ManyToMany(Room)
+    rooms = ormar.ManyToMany(Room)
     points: int = ormar.SmallInteger(default=0, minimum=0)  # type: ignore
 
 
@@ -26,7 +27,7 @@ class TaskSchedule(ormar.Model):
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     task: Task = ormar.ForeignKey(Task)
     schedule = ormar.JSON()
-    executors: list[User] = ormar.ManyToMany(User)
+    executors = ormar.ManyToMany(User)
 
 
 class ScheduledTask(ormar.Model):
@@ -35,7 +36,7 @@ class ScheduledTask(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     task: Task = ormar.ForeignKey(Task)
-    task_schedule: TaskSchedule = ormar.ForeignKey(TaskSchedule, nullable=True)
+    task_schedule: Optional[TaskSchedule] = ormar.ForeignKey(TaskSchedule)
     scheduled_to: datetime = ormar.DateTime(timezone=True)  # type: ignore
 
 
@@ -45,6 +46,8 @@ class CompletedTask(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     task: Task = ormar.ForeignKey(Task)
-    scheduled_task: ScheduledTask = ormar.ForeignKey(ScheduledTask)
+    scheduled_task: Optional[ScheduledTask] = ormar.ForeignKey(
+        ScheduledTask, nullable=True
+    )
     complete_on: datetime = ormar.DateTime(timezone=True)  # type: ignore
-    executors: list[User] = ormar.ManyToMany(User)
+    executors = ormar.ManyToMany(User)

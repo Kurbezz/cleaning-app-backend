@@ -151,9 +151,6 @@ async def create_task_shedule(
         )
     )
 
-    for executor in executors:
-        await task_shedule.executors.add(executor)
-
     background_task.add_task(TaskScheduler.execute, data, task_shedule.id)
 
     return task_shedule

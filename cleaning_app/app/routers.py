@@ -7,6 +7,7 @@ from app.tasks.views import (
     task_schedules_router,
     scheduled_tasks_router,
     completed_tasks_router,
+    task_complete_router,
 )
 
 
@@ -17,4 +18,5 @@ routers: list[APIRouter] = [
     task_schedules_router,
     scheduled_tasks_router,
     completed_tasks_router,
+    task_complete_router,
 ]
