@@ -17,7 +17,7 @@ class Task(ormar.Model):
     description: str = ormar.String(max_length=128)  # type: ignore
     apartment: Apartment = ormar.ForeignKey(Apartment)
     rooms = ormar.ManyToMany(Room)
-    points: int = ormar.SmallInteger(default=0, minimum=0)  # type: ignore
+    points: int = ormar.SmallInteger(default=0, minimum=0, server_default="0", nullable=False)  # type: ignore
 
 
 class TaskSchedule(ormar.Model):
@@ -28,6 +28,9 @@ class TaskSchedule(ormar.Model):
     task: Task = ormar.ForeignKey(Task)
     schedule = ormar.JSON()
     executors = ormar.ManyToMany(User)
+    is_deleted: bool = ormar.Boolean(
+        default=False, server_default="f", nullable=False
+    )
 
 
 class ScheduledTask(ormar.Model):
