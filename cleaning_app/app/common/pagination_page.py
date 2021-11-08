@@ -1,7 +1,6 @@
 from typing import TypeVar, Generic, Sequence, Protocol, Any, runtime_checkable
-from dataclasses import asdict
 
-from fastapi_pagination import LimitOffsetPage
+from fastapi_pagination import Page, Params
 from fastapi_pagination.bases import AbstractParams
 
 
@@ -14,7 +13,7 @@ class ToDict(Protocol):
 T = TypeVar("T", ToDict, Any)
 
 
-class CustomPage(LimitOffsetPage[T], Generic[T]):
+class CustomPage(Page[T], Generic[T]):
     @classmethod
     def create(
         cls,
@@ -22,8 +21,12 @@ class CustomPage(LimitOffsetPage[T], Generic[T]):
         total: int,
         params: AbstractParams,
     ) -> "CustomPage[T]":
+        if not isinstance(params, Params):
+            raise ValueError("Page should be used with Params")
+
         return cls(
             total=total,
             items=[item.dict() for item in items],
-            **asdict(params.to_raw_params()),
+            page=params.page,
+            size=params.size,
         )

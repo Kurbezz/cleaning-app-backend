@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.common.pagination_page import CustomPage
-from fastapi_pagination import LimitOffsetParams
+from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
+from app.common.pagination_page import CustomPage
 
 from app.users.models import User
 from app.users.depends import get_current_user_obj
@@ -19,7 +19,7 @@ scheduled_tasks_router = APIRouter(
 @scheduled_tasks_router.get(
     "",
     response_model=CustomPage[ScheduledTask],
-    dependencies=[Depends(LimitOffsetParams)],
+    dependencies=[Depends(Params)],
 )
 async def get_scheduled_tasks(user: User = Depends(get_current_user_obj)):
     return await paginate(
