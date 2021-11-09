@@ -58,7 +58,7 @@ async def update_apartment(
     return await apartment.update_from_dict(data.dict()).update()
 
 
-@apartments_router.delete("/{apartemnt_id}", response_model=Apartment)
+@apartments_router.delete("/{apartment_id}", response_model=Apartment)
 async def delete_apartment(
     apartment: ApartmentModel = Depends(get_apartment_depends),
 ):
