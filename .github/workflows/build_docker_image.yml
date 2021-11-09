@@ -45,5 +45,5 @@ jobs:
       - 
         name: Invoke deployment hook
         uses: joelwmale/webhook-action@master
-        env:
+        with:
           url: ${{ secrets.WEBHOOK_URL }}
