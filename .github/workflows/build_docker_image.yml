@@ -44,6 +44,6 @@ jobs:
 
       - 
         name: Invoke deployment hook
-        uses: jasongitmail/fast-webhook@v1
+        uses: joelwmale/webhook-action@master
         env:
           url: ${{ secrets.WEBHOOK_URL }}
