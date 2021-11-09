@@ -21,6 +21,8 @@ FROM build-image as runtime-image
 
 WORKDIR /app
 
+COPY ./cleaning_app/ /app/
+
 COPY --from=build-image $VENV_PATH $VENV_PATH
 ENV PATH="$VENV_PATH/bin:$PATH"
 
