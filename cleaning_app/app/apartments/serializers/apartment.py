@@ -1,3 +1,4 @@
+from typing import Optional
 import uuid
 from pydantic import BaseModel, EmailStr, constr
 
@@ -11,6 +12,7 @@ class User(BaseModel):
 class ApartmentRoom(BaseModel):
     id: int
     name: str
+    color: Optional[str]
 
 
 class Apartment(BaseModel):
