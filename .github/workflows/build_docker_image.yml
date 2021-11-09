@@ -44,6 +44,6 @@ jobs:
 
       - 
         name: Invoke deployment hook
-        uses: distributhor/workflow-webhook@v2
+        uses: jasongitmail/fast-webhook@v1
         env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          url: ${{ secrets.WEBHOOK_URL }}
