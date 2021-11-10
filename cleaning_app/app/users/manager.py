@@ -2,6 +2,7 @@ from typing import Optional
 
 from fastapi import Depends, Request
 from fastapi_users.manager import BaseUserManager
+from fastapi_mail import MessageSchema
 
 from core.config import env_config
 
@@ -20,21 +21,39 @@ class UserManager(BaseUserManager[UserRegister, UserDB]):
     async def on_after_register(
         self, user: UserDB, request: Optional[Request] = None
     ):
-        print(f"User {user.id} has registered.")
-
-    async def on_after_forgot_password(
-        self, user: UserDB, token: str, request: Optional[Request] = None
-    ):
-        print(
-            f"User {user.id} has forgot their password. Reset token: {token}"
-        )
+        await self.request_verify(user, request)
 
     async def on_after_request_verify(
         self, user: UserDB, token: str, request: Optional[Request] = None
     ):
-        print(
-            f"Verification requested for user {user.id}. Verification token: {token}"
+        html = f"""
+        {env_config.SERVER_PREFIX}/verify_user?token={token}
+        """
+
+        message = MessageSchema(
+            subject="Подтверждение почты",
+            recipients=[user.email],
+            body=html,
+            subtype="html",
         )
+
+        await request.app.state.fm.send_message(message)
+
+    async def on_after_forgot_password(
+        self, user: UserDB, token: str, request: Optional[Request] = None
+    ):
+        html = f"""
+        {env_config.SERVER_PREFIX}/reset_password?token={token}
+        """
+
+        message = MessageSchema(
+            subject="Восстановление пароля",
+            recipients=[user.email],
+            body=html,
+            subtype="html",
+        )
+
+        await request.app.state.fm.send_message(message)
 
 
 def get_user_manager(user_db=Depends(get_user_db)) -> UserManager:
