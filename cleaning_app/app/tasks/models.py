@@ -15,9 +15,12 @@ class Task(ormar.Model):
     id: int = ormar.Integer(primary_key=True)  # type: ignore
     name: str = ormar.String(max_length=32)  # type: ignore
     description: str = ormar.String(max_length=128)  # type: ignore
-    apartment: Apartment = ormar.ForeignKey(Apartment)
+    apartment: Apartment = ormar.ForeignKey(Apartment, ondelete="CASCADE")
     rooms = ormar.ManyToMany(Room)
     points: int = ormar.SmallInteger(default=0, minimum=0, server_default="0", nullable=False)  # type: ignore
+    is_archived: bool = ormar.Boolean(
+        default=False, server_default="f", nullable=False
+    )
 
 
 class TaskSchedule(ormar.Model):
@@ -25,12 +28,9 @@ class TaskSchedule(ormar.Model):
         tablename = "task_sheldules"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
-    task: Task = ormar.ForeignKey(Task)
+    task: Task = ormar.ForeignKey(Task, ondelete="CASCADE")
     schedule = ormar.JSON()
     executors = ormar.ManyToMany(User)
-    is_deleted: bool = ormar.Boolean(
-        default=False, server_default="f", nullable=False
-    )
 
 
 class ScheduledTask(ormar.Model):
@@ -38,8 +38,10 @@ class ScheduledTask(ormar.Model):
         tablename = "shelduled_tasks"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
-    task: Task = ormar.ForeignKey(Task)
-    task_schedule: Optional[TaskSchedule] = ormar.ForeignKey(TaskSchedule)
+    task: Task = ormar.ForeignKey(Task, ondelete="CASCADE")
+    task_schedule: Optional[TaskSchedule] = ormar.ForeignKey(
+        TaskSchedule, ondelete="CASCADE"
+    )
     scheduled_to: datetime = ormar.DateTime(timezone=True)  # type: ignore
 
 
@@ -48,9 +50,9 @@ class CompletedTask(ormar.Model):
         tablename = "completed_tasks"
 
     id: int = ormar.Integer(primary_key=True)  # type: ignore
-    task: Task = ormar.ForeignKey(Task)
+    task: Task = ormar.ForeignKey(Task, ondelete="CASCADE")
     scheduled_task: Optional[ScheduledTask] = ormar.ForeignKey(
-        ScheduledTask, nullable=True
+        ScheduledTask, nullable=True, ondelete="SET NULL"
     )
     complete_on: datetime = ormar.DateTime(timezone=True)  # type: ignore
     executors = ormar.ManyToMany(User)

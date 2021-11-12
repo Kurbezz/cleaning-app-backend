@@ -12,9 +12,6 @@ from app.tasks.serializers.task_schedule import TaskSchedule, CreateSchedule
 from app.tasks.services.task_schedule_create import (
     create_task_shedule as create_task_shedule_service,
 )
-from app.tasks.services.task_schedule_delete import (
-    delete_task_schedule as delete_task_schedule_service,
-)
 from app.tasks.depends import get_task_schedule_obj
 
 
@@ -65,4 +62,6 @@ async def get_task_schedule(
 async def delete_task_schedule(
     task_schedule: TaskScheduleModel = Depends(get_task_schedule_obj),
 ):
-    return await delete_task_schedule_service(task_schedule)
+    await task_schedule.delete()
+
+    return task_schedule

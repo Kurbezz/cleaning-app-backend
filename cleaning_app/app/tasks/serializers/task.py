@@ -16,6 +16,7 @@ class Task(BaseModel):
     apartment: TaskApartment
     points: int
     rooms: list[TaskRoom]
+    is_archived: bool
 
 
 class CreateTask(BaseModel):
@@ -32,3 +33,4 @@ class UpdateTask(BaseModel):
     apartment: int
     rooms: list[int]
     points: int
+    is_archived: bool
