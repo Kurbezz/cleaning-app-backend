@@ -33,7 +33,7 @@ apartment_rooms_router = APIRouter(
 async def get_all_apartment_rooms(
     apartment: ApartmentModel = Depends(get_apartment),
 ):
-    return await paginate(apartment.rooms.queryset)
+    return await paginate(apartment.rooms.select_related("tasks").queryset)
 
 
 rooms_router = APIRouter(prefix="/api/rooms", tags=["rooms"])
@@ -46,7 +46,9 @@ rooms_router = APIRouter(prefix="/api/rooms", tags=["rooms"])
 )
 async def get_all_rooms(user: User = Depends(get_current_user_obj)):
     return await paginate(
-        RoomModel.objects.filter(apartment__users__id=user.id)
+        RoomModel.objects.filter(apartment__users__id=user.id).select_related(
+            "tasks"
+        )
     )
 
 

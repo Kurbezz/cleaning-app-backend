@@ -1,6 +1,7 @@
 from typing import Optional
 
 import ormar
+from ormar import property_field
 
 from core.db import BaseMeta
 from app.users.models import User
@@ -25,3 +26,7 @@ class Room(ormar.Model):
     color: Optional[str] = ormar.String(
         max_length=6, nullable=True
     )  # type: ignore
+
+    @property_field
+    def tasks_count(self) -> int:
+        return len(self.tasks)

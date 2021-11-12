@@ -1,4 +1,3 @@
-from typing import Optional
 from pydantic import BaseModel, constr
 
 
@@ -15,7 +14,7 @@ class Task(BaseModel):
     name: str
     description: str
     apartment: TaskApartment
-    points: Optional[int]
+    points: int
     rooms: list[TaskRoom]
 
 
@@ -24,7 +23,7 @@ class CreateTask(BaseModel):
     description: constr(max_length=128)  # type: ignore
     apartment: int
     rooms: list[int]
-    points: int = 0
+    points: int
 
 
 class UpdateTask(BaseModel):
