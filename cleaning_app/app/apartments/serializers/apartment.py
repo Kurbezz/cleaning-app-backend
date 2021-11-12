@@ -13,6 +13,7 @@ class ApartmentRoom(BaseModel):
     id: int
     name: str
     color: Optional[str]
+    tasks_count: int
 
 
 class Apartment(BaseModel):

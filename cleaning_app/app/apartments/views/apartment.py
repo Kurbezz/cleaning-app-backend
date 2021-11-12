@@ -29,7 +29,7 @@ apartments_router = APIRouter(prefix="/api/apartments", tags=["apartments"])
 async def get_all_apartments(user: User = Depends(get_current_user_obj)):
     return await paginate(
         user.apartments.select_related(["users"])
-        .prefetch_related(["rooms"])
+        .prefetch_related(["rooms", "rooms__tasks"])
         .queryset
     )
 
