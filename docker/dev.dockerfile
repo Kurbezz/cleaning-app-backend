@@ -13,7 +13,8 @@ RUN python -m venv $VENV_PATH \
     && pip install poetry --no-cache-dir \
     && poetry install
 
-FROM build-image as runtime-image
+
+FROM python:3.10-slim as runtime-image
 
 WORKDIR /app
 

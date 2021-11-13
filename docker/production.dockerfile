@@ -17,7 +17,7 @@ RUN python -m venv $VENV_PATH \
     && pip install -r requirements.txt --no-cache-dir
 
 
-FROM build-image as runtime-image
+FROM python:3.10-slim as runtime-image
 
 WORKDIR /app
 
