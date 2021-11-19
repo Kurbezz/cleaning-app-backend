@@ -34,7 +34,10 @@ async def get_tasks(user: User = Depends(get_current_user_obj)):
 async def create_task(
     data: CreateTask, rooms: list[Room] = Depends(get_rooms)
 ):
-    task = await TaskModel.objects.create(**data.dict())
+    task = await TaskModel.objects.create(
+        is_archived=False,
+        **data.dict(),
+    )
 
     for room in rooms:
         await task.rooms.add(room)

@@ -8,7 +8,6 @@ authors = ["Kurbanov Bulat <kurbanovbul@gmail.com>"]
 python = "^3.9"
 fastapi = "^0.68.1"
 uvicorn = {extras = ["standart"], version = "^0.15.0"}
-ormar = "^0.10.20"
 pydantic = {extras = ["dotenv"], version = "^1.8.2"}
 alembic = "^1.7.3"
 fastapi-users = {extras = ["ormar"], version = "^8.1.0"}
@@ -17,6 +16,7 @@ psycopg2 = "^2.9.1"
 python-dateutil = "^2.8.2"
 fastapi-pagination = {extras = ["ormar"], version = "^0.9.0"}
 fastapi-mail = "^1.0.1"
+ormar = {git = "https://github.com/collerek/ormar.git"}
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.910"

@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
+from sqlalchemy import text
 import ormar
 
 from core.db import BaseMeta
@@ -17,9 +18,9 @@ class Task(ormar.Model):
     description: str = ormar.String(max_length=128)  # type: ignore
     apartment: Apartment = ormar.ForeignKey(Apartment, ondelete="CASCADE")
     rooms = ormar.ManyToMany(Room)
-    points: int = ormar.SmallInteger(default=0, minimum=0, server_default="0", nullable=False)  # type: ignore
+    points: int = ormar.SmallInteger(default=0, minimum=0, server_default=text("0"), nullable=False)  # type: ignore
     is_archived: bool = ormar.Boolean(
-        default=False, server_default="f", nullable=False
+        default=False, server_default=text("false"), nullable=False
     )
 
 

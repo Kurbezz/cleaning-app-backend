@@ -30,7 +30,7 @@ def upgrade():
     op.drop_constraint('fk_task_sheldules_tasks_id_task', 'task_sheldules', type_='foreignkey')
     op.create_foreign_key('fk_task_sheldules_tasks_id_task', 'task_sheldules', 'tasks', ['task'], ['id'], ondelete='CASCADE')
     op.drop_column('task_sheldules', 'is_deleted')
-    op.add_column('tasks', sa.Column('is_archived', sa.Boolean(), server_default='f', nullable=False))
+    op.add_column('tasks', sa.Column('is_archived', sa.Boolean(), server_default=sa.text('false'), nullable=False))
     op.drop_constraint('fk_tasks_apartments_id_apartment', 'tasks', type_='foreignkey')
     op.create_foreign_key('fk_tasks_apartments_id_apartment', 'tasks', 'apartments', ['apartment'], ['id'], ondelete='CASCADE')
     # ### end Alembic commands ###
