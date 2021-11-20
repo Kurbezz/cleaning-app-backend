@@ -1,7 +1,7 @@
 FROM python:3.10-slim as build-image
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y gcc build-essential python3-dev libpq-dev libffi-dev \
+    && apt-get install --no-install-recommends -y git gcc build-essential python3-dev libpq-dev libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/poetry

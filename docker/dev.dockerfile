@@ -3,7 +3,7 @@ FROM python:3.10-slim as build-image
 ENV VENV_PATH=/opt/venv
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y gcc build-essential python3-dev libpq-dev libffi-dev \
+    && apt-get install --no-install-recommends -y git gcc build-essential python3-dev libpq-dev libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/poetry
@@ -17,7 +17,7 @@ RUN python -m venv $VENV_PATH \
 FROM python:3.10-slim as runtime-image
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y python3-dev libpq-dev libffi-dev \
+    && apt-get install --no-install-recommends -y git python3-dev libpq-dev libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
