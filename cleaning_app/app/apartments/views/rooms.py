@@ -69,11 +69,6 @@ async def update_room(
 
 @rooms_router.delete("/{room_id}", response_model=Room)
 async def delete_room(room: RoomModel = Depends(get_room_obj)):
-    print("Test")
-    print("Test 2")
-    print("Test 3")
-    print("Test 4")
-
     await room.delete()
 
     return room

@@ -2,6 +2,8 @@ name: Check linting
 
 on:
   push:
+    branches:
+      - master
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -18,14 +20,20 @@ jobs:
         with:
           python-version: 3.9
 
-      # -
-      #   name: Install pre-commit
-      #   run: pip3 install pre-commit
+      -
+        name: Install pre-commit
+        run: pip3 install pre-commit
 
-      # -
-      #   name: Pre-commit (Push)
-      #   run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }}
+      -
+        name: Chech event_name
+        run: echo ${{ github.event_name }}
+
+      -
+        name: Pre-commit (Push)
+        if: ${{ github.event_name == 'push' }}
+        run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }}
 
       -
         name: Pre-commit (Pull-Request)
-        run: echo ${{ toJSON(github.event) }}
+        if: ${{ github.event_name == 'pull_request' }}
+        run: pre-commit run --source ${{ github.event.pull_request.base.sha }} --origin ${{ github.event.after }}
