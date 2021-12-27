@@ -71,6 +71,7 @@ async def update_room(
 async def delete_room(room: RoomModel = Depends(get_room_obj)):
     print("Test")
     print("Test 2")
+    print("Test 3")
 
     await room.delete()
 
