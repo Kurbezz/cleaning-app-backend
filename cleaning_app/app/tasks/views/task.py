@@ -2,17 +2,14 @@ from fastapi import APIRouter, Depends
 
 from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
-from app.common.pagination_page import CustomPage
-
-from app.users.models import User
-from app.users.depends import get_current_user_obj
 
 from app.apartments.models import Room
-
-from app.tasks.models import Task as TaskModel
-from app.tasks.serializers.task import Task, CreateTask, UpdateTask
+from app.common.pagination_page import CustomPage
 from app.tasks.depends import get_rooms, get_task_obj
-
+from app.tasks.models import Task as TaskModel
+from app.tasks.serializers.task import CreateTask, Task, UpdateTask
+from app.users.depends import get_current_user_obj
+from app.users.models import User
 
 tasks_router = APIRouter(prefix="/api/tasks", tags=["tasks"])
 

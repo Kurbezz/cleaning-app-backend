@@ -1,9 +1,8 @@
 from fastapi import Depends
 
-from app.users.serializers import UserDB
-from app.users.router import fastapi_users
 from app.users.models import User
-
+from app.users.router import fastapi_users
+from app.users.serializers import UserDB
 
 get_current_active_user = fastapi_users.authenticator.current_user(active=True)
 get_current_superuser = fastapi_users.authenticator.current_user(

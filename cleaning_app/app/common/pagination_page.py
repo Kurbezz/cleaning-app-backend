@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Sequence, Protocol, Any, runtime_checkable
+from typing import Any, Generic, Protocol, Sequence, TypeVar, runtime_checkable
 
 from fastapi_pagination import Page, Params
 from fastapi_pagination.bases import AbstractParams

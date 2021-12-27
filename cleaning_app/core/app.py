@@ -1,13 +1,12 @@
 from fastapi import FastAPI
 
+from fastapi_mail import ConnectionConfig, FastMail
 from fastapi_pagination import add_pagination
 
-from fastapi_mail import FastMail, ConnectionConfig
-
-from core.db import database
-from core.config import env_config
 from app.routers import routers
 from app.users.router import init_auth_routes
+from core.config import env_config
+from core.db import database
 
 
 def start_app() -> FastAPI:

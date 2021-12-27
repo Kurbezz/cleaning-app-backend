@@ -2,21 +2,19 @@ from fastapi import APIRouter, Depends
 
 from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
-from app.common.pagination_page import CustomPage
 
-from app.users.models import User
-from app.users.depends import get_current_user_obj
-
+from app.apartments.depends.apartment import (
+    get_apartment as get_apartment_depends,
+)
 from app.apartments.models import Apartment as ApartmentModel
 from app.apartments.serializers.apartment import (
     Apartment,
     CreateApartment,
     UpdateApartment,
 )
-from app.apartments.depends.apartment import (
-    get_apartment as get_apartment_depends,
-)
-
+from app.common.pagination_page import CustomPage
+from app.users.depends import get_current_user_obj
+from app.users.models import User
 
 apartments_router = APIRouter(prefix="/api/apartments", tags=["apartments"])
 

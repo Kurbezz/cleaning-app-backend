@@ -2,14 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
+
 from app.common.pagination_page import CustomPage
-
-from app.users.models import User
-from app.users.depends import get_current_user_obj
-
-from app.tasks.serializers.scheduled_task import ScheduledTask
 from app.tasks.models import ScheduledTask as ScheduledTaskModel
-
+from app.tasks.serializers.scheduled_task import ScheduledTask
+from app.users.depends import get_current_user_obj
+from app.users.models import User
 
 scheduled_tasks_router = APIRouter(
     prefix="/api/scheduled_tasks", tags=["scheduled_tasks"]

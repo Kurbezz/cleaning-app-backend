@@ -1,12 +1,11 @@
-from fastapi import FastAPI, APIRouter, Depends, Response
-from fastapi_users.fastapi_users import FastAPIUsers
+from fastapi import APIRouter, Depends, FastAPI, Response
+
 from fastapi_users.authentication.jwt import JWTAuthentication
+from fastapi_users.fastapi_users import FastAPIUsers
 
-from core.config import env_config
-
-from app.users.serializers import User, UserRegister, UserUpdate, UserDB
 from app.users.manager import get_user_manager
-
+from app.users.serializers import User, UserDB, UserRegister, UserUpdate
+from core.config import env_config
 
 SECRET = env_config.SECRET
 

@@ -1,9 +1,9 @@
 from datetime import datetime, time
-from typing import Literal, Union
 from enum import Enum
+from typing import Literal, Union
 from uuid import UUID
 
-from pydantic import BaseModel, conint, PositiveInt
+from pydantic import BaseModel, PositiveInt, conint
 
 
 class ScheduleType(str, Enum):

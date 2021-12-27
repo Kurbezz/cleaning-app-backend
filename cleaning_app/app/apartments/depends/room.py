@@ -1,11 +1,10 @@
 from fastapi import Depends, HTTPException, status
 
-from app.users.models import User
-from app.users.depends import get_current_user_obj
-
 from app.apartments.depends.apartment import get_apartment
 from app.apartments.models import Apartment, Room
 from app.apartments.serializers.room import CreateRoomWithApartment
+from app.users.depends import get_current_user_obj
+from app.users.models import User
 
 
 async def get_room_in_apartment(

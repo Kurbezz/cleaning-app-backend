@@ -4,18 +4,14 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
+
 from app.common.pagination_page import CustomPage
-
-from app.users.models import User
-from app.users.depends import get_current_user_obj
-
-from app.tasks.models import (
-    CompletedTask as CompletedTaskModel,
-    Task as TaskModel,
-)
-from app.tasks.serializers.completed_task import CompletedTask
 from app.tasks.depends import get_task_obj
-
+from app.tasks.models import CompletedTask as CompletedTaskModel
+from app.tasks.models import Task as TaskModel
+from app.tasks.serializers.completed_task import CompletedTask
+from app.users.depends import get_current_user_obj
+from app.users.models import User
 
 completed_tasks_router = APIRouter(
     prefix="/api/completed_tasks", tags=["completed_tasks"]
