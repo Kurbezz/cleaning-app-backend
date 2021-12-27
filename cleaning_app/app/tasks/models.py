@@ -1,12 +1,13 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import text
 import ormar
 
-from core.db import BaseMeta
+from sqlalchemy import text
+
 from app.apartments.models import Apartment, Room
 from app.users.models import User
+from core.db import BaseMeta
 
 
 class Task(ormar.Model):

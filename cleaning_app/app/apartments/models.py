@@ -3,8 +3,8 @@ from typing import Optional
 import ormar
 from ormar import property_field
 
-from core.db import BaseMeta
 from app.users.models import User
+from core.db import BaseMeta
 
 
 class Apartment(ormar.Model):

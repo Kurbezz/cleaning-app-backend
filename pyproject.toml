@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Kurbanov Bulat <kurbanovbul@gmail.com>"]
 
+
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.68.1"
@@ -11,12 +12,11 @@ uvicorn = {extras = ["standart"], version = "^0.15.0"}
 pydantic = {extras = ["dotenv"], version = "^1.8.2"}
 alembic = "^1.7.3"
 fastapi-users = {extras = ["ormar"], version = "^8.1.0"}
-asyncpg = "^0.24.0"
-psycopg2 = "^2.9.1"
 python-dateutil = "^2.8.2"
 fastapi-pagination = {extras = ["ormar"], version = "^0.9.0"}
 fastapi-mail = "^1.0.1"
-ormar = {git = "https://github.com/collerek/ormar.git"}
+ormar = {extras = ["postgresql", "orjson"], version = "^0.10.23"}
+
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.910"
@@ -24,10 +24,13 @@ black = "^21.9b0"
 types-python-dateutil = "^2.8.2"
 pyproject-flake8 = "^0.0.1-alpha.2"
 pre-commit = "^2.15.0"
+isort = "^5.10.1"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
 
 [tool.black]
 line-length = 79
@@ -38,6 +41,18 @@ exclude = '''
 )/
 '''
 
+
 [tool.flake8]
 exclude = "cleaning_app/app/migrations/versions/*"
 ignore = "E501"
+
+
+[tool.isort]
+profile = "black"
+line_length = 79
+only_sections = true
+sections = ['FUTURE', 'STDLIB', 'BASEFRAMEWORK', 'FRAMEWORKEXT', 'DATABASE', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
+known_baseframework = ["fastapi"]
+known_frameworkext = ["fastapi-users", "fastapi-pagination", "fastapi-mail"]
+known_database = ["ormar"]
+src_paths = ["cleaning_app"]

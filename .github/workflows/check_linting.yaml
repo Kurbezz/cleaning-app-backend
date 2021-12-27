@@ -1,0 +1,24 @@
+name: Check linting
+
+on: [push, pull_request]
+
+
+jobs:
+  Check-flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 32
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      -
+        name: Install pre-commit, flake8, black and isort
+        run: pip3 install pre-commit flake8 pyproject-flake8 black isort
+
+      -
+        name: Pre-commit
+        run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }}

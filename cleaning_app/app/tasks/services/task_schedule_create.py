@@ -1,23 +1,21 @@
 from datetime import datetime, timedelta
-from fastapi import HTTPException, status, BackgroundTasks
 
-from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
+from fastapi import BackgroundTasks, HTTPException, status
 
-from app.users.models import User
+from dateutil.relativedelta import FR, MO, SA, SU, TH, TU, WE, relativedelta
 
-from app.tasks.models import (
-    Task as TaskModel,
-    TaskSchedule as TaskSheduleModel,
-    ScheduledTask as ScheduledTaskModel,
-)
+from app.tasks.models import ScheduledTask as ScheduledTaskModel
+from app.tasks.models import Task as TaskModel
+from app.tasks.models import TaskSchedule as TaskSheduleModel
 from app.tasks.serializers.task_schedule import (
-    WeekDays,
     CreateSchedule,
-    ScheduleSomeDay,
-    ScheduleDaysOfTheWeek,
     ScheduleDaysOfTheMonth,
+    ScheduleDaysOfTheWeek,
     ScheduleRepeatEveryNDays,
+    ScheduleSomeDay,
+    WeekDays,
 )
+from app.users.models import User
 
 
 class TaskScheduler:

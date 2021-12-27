@@ -2,8 +2,10 @@ services:
   db:
     image: "postgres:14"
     restart: always
-    env_file:
-      - ./cleaning_app/.env
+    environment:
+      - POSTGRES_DB=cleaning_app
+      - POSTGRES_USER=debug
+      - POSTGRES_PASSWORD=debug
     ports:
       - "5432:5432"
   

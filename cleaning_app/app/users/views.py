@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Request, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+
 from fastapi_users.manager import InvalidPasswordException, UserAlreadyExists
 from fastapi_users.router.common import ErrorCode
 
-from app.users.serializers import User, UserDB, UserUpdate
-from app.users.manager import get_user_manager, UserManager
 from app.users.depends import get_current_active_user
-
+from app.users.manager import UserManager, get_user_manager
+from app.users.serializers import User, UserDB, UserUpdate
 
 router = APIRouter(prefix="/api/users", tags=["users"])
 

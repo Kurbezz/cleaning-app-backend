@@ -1,19 +1,17 @@
-from fastapi import APIRouter, Depends, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, Depends
 
 from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
+
 from app.common.pagination_page import CustomPage
-
-from app.users.models import User
-from app.users.depends import get_current_user_obj
-
+from app.tasks.depends import get_task_schedule_obj
 from app.tasks.models import TaskSchedule as TaskScheduleModel
-from app.tasks.serializers.task_schedule import TaskSchedule, CreateSchedule
+from app.tasks.serializers.task_schedule import CreateSchedule, TaskSchedule
 from app.tasks.services.task_schedule_create import (
     create_task_shedule as create_task_shedule_service,
 )
-from app.tasks.depends import get_task_schedule_obj
-
+from app.users.depends import get_current_user_obj
+from app.users.models import User
 
 task_schedules_router = APIRouter(
     prefix="/api/task_schedules", tags=["task_schedules"]

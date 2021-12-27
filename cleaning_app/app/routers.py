@@ -1,15 +1,14 @@
 from fastapi import APIRouter
 
-from app.users.views import router as users_router
 from app.apartments.routers import routers as appartments_routers
 from app.tasks.views import (
-    tasks_router,
-    task_schedules_router,
-    scheduled_tasks_router,
     completed_tasks_router,
+    scheduled_tasks_router,
     task_complete_router,
+    task_schedules_router,
+    tasks_router,
 )
-
+from app.users.views import router as users_router
 
 routers: list[APIRouter] = [
     users_router,

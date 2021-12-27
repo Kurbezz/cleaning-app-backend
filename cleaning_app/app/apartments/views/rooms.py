@@ -2,23 +2,19 @@ from fastapi import APIRouter, Depends
 
 from fastapi_pagination import Params
 from fastapi_pagination.ext.ormar import paginate
-from app.common.pagination_page import CustomPage
 
+from app.apartments.depends.apartment import get_apartment
+from app.apartments.depends.room import get_apartment_obj, get_room_obj
+from app.apartments.models import Apartment as ApartmentModel
+from app.apartments.models import Room as RoomModel
+from app.apartments.serializers.room import (
+    CreateRoomWithApartment,
+    Room,
+    UpdateRoom,
+)
+from app.common.pagination_page import CustomPage
 from app.users.depends import get_current_user_obj
 from app.users.models import User
-
-from app.apartments.models import (
-    Apartment as ApartmentModel,
-    Room as RoomModel,
-)
-from app.apartments.serializers.room import Room, UpdateRoom
-from app.apartments.depends.apartment import get_apartment
-from app.apartments.depends.room import (
-    get_room_obj,
-    get_apartment_obj,
-)
-from app.apartments.serializers.room import CreateRoomWithApartment
-
 
 apartment_rooms_router = APIRouter(
     prefix="/api/apartments/{apartment_id}/rooms", tags=["apartments"]
@@ -73,6 +69,10 @@ async def update_room(
 
 @rooms_router.delete("/{room_id}", response_model=Room)
 async def delete_room(room: RoomModel = Depends(get_room_obj)):
+    print("Test")
+    print("Test 2")
+    print("Test 3")
+
     await room.delete()
 
     return room

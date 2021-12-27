@@ -1,8 +1,9 @@
 import ormar
+
 from fastapi_users_db_ormar import OrmarBaseUserModel, OrmarUserDatabase
 
-from core.db import BaseMeta
 from app.users.serializers import UserDB
+from core.db import BaseMeta
 
 
 class User(OrmarBaseUserModel):
