@@ -18,14 +18,14 @@ jobs:
         with:
           python-version: 3.9
 
-      -
-        name: Install pre-commit
-        run: pip3 install pre-commit
+      # -
+      #   name: Install pre-commit
+      #   run: pip3 install pre-commit
 
-      -
-        name: Pre-commit (Push)
-        run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }}
+      # -
+      #   name: Pre-commit (Push)
+      #   run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }}
 
       -
         name: Pre-commit (Pull-Request)
-        run: echo ${{ github.event }}
+        run: echo ${{ toJSON(github.event) }}
