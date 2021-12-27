@@ -1,10 +1,13 @@
 name: Check linting
 
-on: [push, pull_request]
+on:
+  push
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 
 jobs:
-  Check-flake8:
+  Run-Pre-Commit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,8 +19,8 @@ jobs:
           python-version: 3.9
 
       -
-        name: Install pre-commit, flake8, black and isort
-        run: pip3 install pre-commit flake8 pyproject-flake8 black isort
+        name: Install pre-commit
+        run: pip3 install pre-commit
 
       -
         name: Pre-commit
