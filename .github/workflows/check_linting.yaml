@@ -1,4 +1,4 @@
-name: Check linting
+name: Pre-commit check
 
 on:
   push:
@@ -20,18 +20,20 @@ jobs:
         with:
           python-version: 3.9
 
-      -
-        name: Install requirements
-        run: pip install pre-commit
+      - name: Install pre-commit
+        run: pip3 install pre-commit
 
-      -
-        name: Pre-commit (Push)
+      - name: Show event data
+        run: echo ${{ github.event }}
+
+      - name: Pre-commit (Push)
         env:
           SETUPTOOLS_USE_DISTUTILS: stdlib
         if: ${{ github.event_name == 'push' }}
-        run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }}
+        run: pre-commit run --source ${{ github.event.before }} --origin ${{ github.event.after }} --show-diff-on-failure
 
-      -
-        name: Pre-commit (Pull-Request)
+      - name: Pre-commit (Pull-Request)
+        env:
+          SETUPTOOLS_USE_DISTUTILS: stdlib
         if: ${{ github.event_name == 'pull_request' }}
-        run: pre-commit run --source ${{ github.event.pull_request.base.sha }} --origin ${{ github.event.after }}
+        run: pre-commit run --source ${{ github.event.pull_request.base.sha }} --origin ${{ github.event.after }} --show-diff-on-failure
